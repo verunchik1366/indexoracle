@@ -323,9 +323,7 @@
             "Так, всі ознаки вказують на це!",
             "Так, і це буде найкраще рішення!",
             "Так, це твій час сяяти!",
-            // ... (ще 285 позитивних відповідей)
             
-            // Негативні відповіді (300 варіантів)
             "Ні, ні в якому разі!",
             "Абсолютно ні!",
             "Ні, і навіть не думай про це!",
@@ -340,9 +338,7 @@
             "Ні, всі ознаки проти!",
             "Ні, це буде помилкою!",
             "Ні, не варто ризикувати!",
-            // ... (ще 285 негативних відповідей)
             
-            // Нейтральні/креативні відповіді (400 варіантів)
             "Можливо, але тільки якщо попросиш гарненько!",
             "Так, але тільки після третьої чашки кави!",
             "Ні, якщо тільки ти не супергерой!",
@@ -358,65 +354,60 @@
             "Ні, якщо тільки ти не знаєш секретний пароль!",
             "Так, але спочатку з'їж шоколадку!",
             "Ні, але можеш спробувати ще раз!",
-            // ... (ще 385 креативних відповідей)
         ];
 
-        // Елементи DOM
+        
         const questionInput = document.getElementById('question-input');
         const askButton = document.getElementById('ask-button');
         const responseContainer = document.getElementById('response-container');
         const typingIndicator = document.getElementById('typing-indicator');
         const historyButton = document.getElementById('history-button');
 
-        // Історія відповідей
+        
         let answerHistory = [];
 
-        // Обробник кнопки "Запитати оракула"
+       
         askButton.addEventListener('click', askOracle);
         questionInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') askOracle();
         });
 
-        // Функція запиту до оракула
+        
         function askOracle() {
             const question = questionInput.value.trim();
             
             if (!question) {
-                showResponse("Будь ласка, задайте питання!", "warning");
+                showResponse("Задавай питання поки не вмер чмоня!", "warning");
                 return;
             }
             
-            // Показати індикатор "друку"
+           
             typingIndicator.style.display = 'block';
             responseContainer.innerHTML = '';
             
-            // Імітувати затримку для більшого реалізму
+            
             setTimeout(() => {
-                // Отримати випадкову відповідь
                 const randomResponse = getRandomResponse(question);
                 
-                // Додати до історії
+                
                 answerHistory.push({
                     question: question,
                     answer: randomResponse,
                     timestamp: new Date()
                 });
                 
-                // Показати відповідь
+              
                 showResponse(randomResponse);
                 
-                // Сховати індикатор "друку"
+                
                 typingIndicator.style.display = 'none';
-            }, 1000 + Math.random() * 2000); // Випадкова затримка 1-3 сек
+            }, 1000 + Math.random() * 2000); 
         }
 
-        // Отримати випадкову відповідь (з урахуванням питання для більшого реалізму)
         function getRandomResponse(question) {
-            // Простий аналіз питання для більш релевантних відповідей
             const questionLower = question.toLowerCase();
             let responsePool = [...oracleResponses];
             
-            // Якщо питання починається з "чи варто" або "чи повинен"
             if (questionLower.includes('варто') || questionLower.includes('повинен')) {
                 responsePool = responsePool.filter(r => 
                     r.startsWith('Так') || r.startsWith('Ні') || 
@@ -424,7 +415,6 @@
                 );
             }
             
-            // Якщо питання про кохання
             if (questionLower.includes('коха') || questionLower.includes('любов') || questionLower.includes('почуття')) {
                 responsePool = [
                     ...responsePool,
@@ -436,7 +426,6 @@
                 ];
             }
             
-            // Якщо питання про роботу/кар'єру
             if (questionLower.includes('робот') || questionLower.includes('кар\'єр') || questionLower.includes('проект')) {
                 responsePool = [
                     ...responsePool,
@@ -448,23 +437,19 @@
                 ];
             }
             
-            // Випадкова відповідь з відфільтрованого пулу
             return responsePool[Math.floor(Math.random() * responsePool.length)];
         }
 
-        // Показати відповідь
         function showResponse(response, type = 'normal') {
             responseContainer.innerHTML = `
                 <div class="response-text">${response}</div>
             `;
             
-            // Анімація появи
             responseContainer.style.animation = 'none';
             void responseContainer.offsetWidth; // Trigger reflow
             responseContainer.style.animation = 'textAppear 0.5s ease-out';
         }
 
-        // Показати історію (заглушка)
         historyButton.addEventListener('click', () => {
             if (answerHistory.length === 0) {
                 showResponse("Ви ще не задали жодного питання!", "warning");
@@ -475,7 +460,6 @@
             showResponse(`Останнє питання: "${lastQuestion.question}"\nВідповідь: ${lastQuestion.answer}`);
         });
 
-        // Фокус на поле вводу при завантаженні
         questionInput.focus();
     </script>
 </body>
